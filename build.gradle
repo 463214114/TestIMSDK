@@ -1,14 +1,56 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
-        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
-        google()
-        mavenCentral()
-    }
-    
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-    }
+/* groovylint-disable CompileStatic */
+plugins {
+    id 'maven-publish'
 }
+
+// task generateSourcesJar(type: Jar) {
+//     from android.sourceSets.main.java.srcDirs
+//     classifier 'sources'
+// }
+
+def versionName = '1.0.0'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.uconnect.im'
+                artifact = 'imsdk'
+                version = versionName
+            }
+        }
+    // publications {
+    //     // 定义一个名为 Production 的发布
+    //     Production(MavenPublication) {
+    //         // 使用方引用 implementation 'cn.com.jack:mavendemo:1.0.0'
+    //         groupId = 'cn.com.jack'
+    //         artifactId = 'mavendemo'
+    //         version = versionName
+    //         // 必须有这个 否则不会上传AAR包
+    //         afterEvaluate { artifact(tasks.getByName('bundleReleaseAar')) }
+    //         // 上传source，这样使用方可以看到方法注释
+    //         artifact generateSourcesJar
+    //     }
+    // }
+    // repositories {
+    //     // 定义一个 maven 仓库
+    //     maven {
+    //         // 可以有且仅有一个仓库不指定 name 属性，会隐式设置为 Maven
+    //         // 根据 versionName 来判断仓库地址
+    //         url = versionName.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+    //         // 仓库用户名密码
+    //         credentials {
+    //             username = 'root'
+    //             password = 'root'
+    //         }
+    //     }
+    //     // 定义第二个 maven 仓库，名为 Nexus
+    //     maven {
+    //         // 必须显示指定 name
+    //         name = 'nexus'
+    //         url = versionName.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+    //     }
+    // }
+    }
+ }
